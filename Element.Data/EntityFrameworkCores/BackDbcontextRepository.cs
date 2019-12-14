@@ -9,26 +9,28 @@ using System.Text;
 
 namespace Element.Data.EntityFrameworkCores
 {
-    public class DbcontextRepository : DbContext
+   public class BackDbcontextRepository :DbContext
     {
 
-        public DbcontextRepository()
+        public BackDbcontextRepository()
         {
 
         }
-        public static DbcontextRepository Context
+
+
+        public static BackDbcontextRepository Context
         {
             get
             {
-                return new DbcontextRepository();
+                return new BackDbcontextRepository();
             }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            var sqltype = "Sql:sqlType";
-            var sqlstr = "Sql:str";
+            var sqltype = "BackSql:sqlType";
+            var sqlstr = "BackSql:str";
             var sql = JsonHelper.GetDbConnection(sqltype, sqlstr);
             if (sql.Item1 == "1")
             {
@@ -58,6 +60,6 @@ namespace Element.Data.EntityFrameworkCores
         public DbSet<User> Users { get; set; }
         public DbSet<StoredEvent> StoredEvents { get; set; }
 
-       public DbSet<RoleMannage> RoleMannages { get; set; }
+
     }
 }

@@ -4,39 +4,22 @@ using Element.Data.EntityFrameworkCores;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Element.Data.Migrations
 {
     [DbContext(typeof(DbcontextRepository))]
-    partial class DbcontextRepositoryModelSnapshot : ModelSnapshot
+    [Migration("20191209030020_store")]
+    partial class store
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Element.Core.Events.StoredEvent", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<Guid>("AggregateId");
-
-                    b.Property<string>("Data");
-
-                    b.Property<string>("MessageType");
-
-                    b.Property<DateTime>("Timestamp");
-
-                    b.Property<string>("User");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StoredEvents");
-                });
 
             modelBuilder.Entity("Element.Domain.Models.Merchant", b =>
                 {
@@ -70,19 +53,6 @@ namespace Element.Data.Migrations
                     b.ToTable("Merchants");
                 });
 
-            modelBuilder.Entity("Element.Domain.Models.RoleMannage", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<bool>("IsTrueRold");
-
-                    b.Property<string>("RoleName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RoleMannages");
-                });
-
             modelBuilder.Entity("Element.Domain.Models.User", b =>
                 {
                     b.Property<Guid>("Id");
@@ -97,7 +67,7 @@ namespace Element.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Element.Domain.Models.Merchant", b =>

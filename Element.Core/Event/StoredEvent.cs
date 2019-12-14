@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Element.Core.Events
@@ -25,8 +27,10 @@ namespace Element.Core.Events
         }
 
         // 为了EFCore能正确CodeFirst
-        protected StoredEvent() { }
+        public StoredEvent() { }
         // 事件存储Id
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; private set; }
         // 存储的数据
         public string Data { get; private set; }

@@ -23,7 +23,9 @@ namespace Element.Domain.Models
         /// </summary>
         public string Address { get; set; }
 
-
+        /// <summary>
+        /// 手机号
+        /// </summary>
         public string Phone { get; set; }
 
 
@@ -39,7 +41,6 @@ namespace Element.Domain.Models
             this.Name = Name;
             this.Address = Address;
             this.Phone = Phone;
-
         }
 
 

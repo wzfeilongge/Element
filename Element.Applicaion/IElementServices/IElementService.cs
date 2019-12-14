@@ -1,4 +1,5 @@
 ﻿using Element.Applicaion.ViewModels;
+using Element.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,5 +27,7 @@ namespace Element.Applicaion.IElementServices
         /// <param name="id"></param>
         /// <returns></returns>
         Task<MerchantViewModel> GetMerchantViewModelById(Guid id);
+
+        Task<RoleMannage> GetRoleModel(Guid id);
     }
 }

@@ -12,18 +12,30 @@ namespace Element.Applicaion.ViewModels
         [Key]
         public Guid Id { get; set; }
 
+        
+        /// <summary>
+        /// 用户名
+        /// </summary>
         [Required(ErrorMessage = "The Name is Required")]
         [MinLength(2)]
         [MaxLength(100)]
         [DisplayName("Name")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// 生日
+        /// </summary>
         [Required(ErrorMessage = "The BirthDate is Required")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [DataType(DataType.Date, ErrorMessage = "Date in invalid format")]
         [DisplayName("Birth Date")]
         public DateTime BirthDate { get; set; }
 
+
+
+        /// <summary>
+        /// 手机号
+        /// </summary>
         [Required(ErrorMessage = "The Phone is Required")]
         [Phone]
         [DisplayName("Phone")]

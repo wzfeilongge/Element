@@ -1,4 +1,5 @@
 ﻿using Element.Core.Events;
+using Element.Domain.Interface;
 using Element.Infra.Data;
 using Newtonsoft.Json;
 using System;
@@ -21,12 +22,13 @@ namespace Element.Applicaion.EventSource
 
         public void Save<T>(T theEvent) where T : Event
         {
+            var name = typeof(T).Name;
             var serializedData = JsonConvert.SerializeObject(theEvent);
 
             var storedEvent = new StoredEvent(
                 theEvent,
                 serializedData,
-                "TestName");
+                name);
 
             _EventStoreRepository.Store(storedEvent);
         }

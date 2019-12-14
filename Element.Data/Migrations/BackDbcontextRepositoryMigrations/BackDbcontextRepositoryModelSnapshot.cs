@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Element.Data.Migrations
+namespace Element.Data.Migrations.BackDbcontextRepositoryMigrations
 {
-    [DbContext(typeof(DbcontextRepository))]
-    partial class DbcontextRepositoryModelSnapshot : ModelSnapshot
+    [DbContext(typeof(BackDbcontextRepository))]
+    partial class BackDbcontextRepositoryModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -68,19 +68,6 @@ namespace Element.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Merchants");
-                });
-
-            modelBuilder.Entity("Element.Domain.Models.RoleMannage", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<bool>("IsTrueRold");
-
-                    b.Property<string>("RoleName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RoleMannages");
                 });
 
             modelBuilder.Entity("Element.Domain.Models.User", b =>

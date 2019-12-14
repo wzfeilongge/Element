@@ -5,6 +5,7 @@ using Element.Core.Bus;
 using Element.Domain.Commands;
 using Element.Domain.Events.Merchant;
 using Element.Domain.Interface;
+using Element.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,11 +21,14 @@ namespace Element.Applicaion.ElementServices
 
         private readonly IMerchantRepository _MerchantRepository;
 
-        public ElementService(IMapper Mapper, IMediatorHandler Bus, IMerchantRepository MerchantRepository)
+        private readonly IRoleManngeRepository _RoleManngeRepository;
+
+        public ElementService(IMapper Mapper, IMediatorHandler Bus, IMerchantRepository MerchantRepository,IRoleManngeRepository roleManngeRepository)
         {
             _Mapper = Mapper;
             _Bus = Bus;
             _MerchantRepository = MerchantRepository;
+            _RoleManngeRepository = roleManngeRepository;
         }
 
         public IEnumerable<MerchantViewModel> GetAll()
@@ -35,6 +39,11 @@ namespace Element.Applicaion.ElementServices
         public async Task<MerchantViewModel> GetMerchantViewModelById(Guid id)
         {
             return   _Mapper.Map<MerchantViewModel>( await _MerchantRepository.GetModelAsync(o => o.Id != null));
+        }
+
+        public  async Task<RoleMannage> GetRoleModel(Guid id)
+        {
+           return await  _RoleManngeRepository.GetModelAsync(r=>r.Id==id);
         }
 
         public async Task ResiterMerchant(MerchantViewModel merchantViewModel)

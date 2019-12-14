@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Element.Data.Migrations
+namespace Element.Data.Migrations.BackDbcontextRepositoryMigrations
 {
-    [DbContext(typeof(DbcontextRepository))]
-    [Migration("20191208070155_ChangeOnlyKey")]
-    partial class ChangeOnlyKey
+    [DbContext(typeof(BackDbcontextRepository))]
+    [Migration("20191209063857_BackDbcontext")]
+    partial class BackDbcontext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,25 @@ namespace Element.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Element.Core.Events.StoredEvent", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<Guid>("AggregateId");
+
+                    b.Property<string>("Data");
+
+                    b.Property<string>("MessageType");
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.Property<string>("User");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StoredEvents");
+                });
 
             modelBuilder.Entity("Element.Domain.Models.Merchant", b =>
                 {
@@ -67,7 +86,7 @@ namespace Element.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Element.Domain.Models.Merchant", b =>

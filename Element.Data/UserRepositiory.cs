@@ -11,15 +11,9 @@ namespace Element.Data
 {
     public class UserRepositiory : BaseRepository<User>, IUserRepository
     {
-
         public UserRepositiory(ILogger<BaseRepository<User>> logger):base(logger)
         {
 
-        }
-
-        public  async Task<bool> RegisitUserTrue(User user)
-        {
-            return await base.AddModel(user) > 0;
-        }
+        }     
     }
 }

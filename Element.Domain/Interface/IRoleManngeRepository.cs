@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Element.Domain.Interface
 {
-   public interface IUserRepository : IBaseRepository<User>
+    public interface IRoleManngeRepository : IBaseRepository<RoleMannage>
     {
 
-       
+        Task<bool> AddRole(Guid id,string RoleName);
+
 
     }
 }

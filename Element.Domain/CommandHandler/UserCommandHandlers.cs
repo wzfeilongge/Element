@@ -21,10 +21,17 @@ namespace Element.Domain.CommandHandler
         private readonly IUserRepository _UserRepository;
         private readonly IMediatorHandler _Bus;
 
-        public UserCommandHandlers(IUnitOfWork uow, IMediatorHandler bus, IUserRepository UserRepository) :base(uow,bus)
+        private readonly IRoleManngeRepository _RoleManngeRepository;
+
+        public UserCommandHandlers(IUnitOfWork uow,
+            IMediatorHandler bus, 
+            IUserRepository UserRepository,
+            IRoleManngeRepository RoleManngeRepository
+            ) :base(uow,bus)
         {
             _Bus = bus;
             _UserRepository = UserRepository;
+            _RoleManngeRepository = RoleManngeRepository;
         }
 
         public  async Task<Unit> Handle(UserCommand request, CancellationToken cancellationToken)
@@ -46,12 +53,13 @@ namespace Element.Domain.CommandHandler
                 return await Task.FromResult(new Unit());
             }
             var model = await _UserRepository.Add(user);
-            if (model!=null)
+            var rolemodel=await _RoleManngeRepository.AddRole(model.Id, "Permission");
+            if (model!=null&&rolemodel==true)
             {
                 await _Bus.RaiseEvent(new UserRegisterEvent(model.Id, model.Name, model.Phone, model.Address, model.IdCard));
                 return await Task.FromResult(new Unit());
             }
-            await _Bus.RaiseEvent(new DomainNotification("", "插入数据库失败"));
+            await _Bus.RaiseEvent(new DomainNotification("", $"插入数据库失败"));
             return   await Task.FromResult(new Unit());
         }
     }

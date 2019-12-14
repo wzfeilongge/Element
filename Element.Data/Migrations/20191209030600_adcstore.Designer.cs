@@ -4,14 +4,16 @@ using Element.Data.EntityFrameworkCores;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Element.Data.Migrations
 {
     [DbContext(typeof(DbcontextRepository))]
-    partial class DbcontextRepositoryModelSnapshot : ModelSnapshot
+    [Migration("20191209030600_adcstore")]
+    partial class adcstore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace Element.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StoredEvents");
+                    b.ToTable("storedEvents");
                 });
 
             modelBuilder.Entity("Element.Domain.Models.Merchant", b =>
@@ -70,19 +72,6 @@ namespace Element.Data.Migrations
                     b.ToTable("Merchants");
                 });
 
-            modelBuilder.Entity("Element.Domain.Models.RoleMannage", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<bool>("IsTrueRold");
-
-                    b.Property<string>("RoleName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RoleMannages");
-                });
-
             modelBuilder.Entity("Element.Domain.Models.User", b =>
                 {
                     b.Property<Guid>("Id");
@@ -97,7 +86,7 @@ namespace Element.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Element.Domain.Models.Merchant", b =>
