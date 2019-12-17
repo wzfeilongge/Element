@@ -13,6 +13,7 @@ using Element.Data.UnitOfWork;
 using Element.Domain.CommandHandler;
 using Element.Domain.Commands;
 using Element.Domain.EventHandler;
+using Element.Domain.Events.UserEvent;
 using Element.Domain.Interface;
 using Element.Infra.Data;
 using Element.Infra.Data.UnitofWorkDB;
@@ -76,11 +77,17 @@ namespace Element.UI.Extensions
 
             services.AddScoped<INotificationHandler<UserRegisterEvent>, UserEventHandler>();
 
+            services.AddScoped<INotificationHandler<ChangePwd>, UserEventHandler>();
+
 
             //领域命令
             services.AddScoped<IRequestHandler<MerchantCommands, Unit>, MerchantCommandsHandlers>();
 
             services.AddScoped<IRequestHandler<UserCommand, Unit>, UserCommandHandlers>();
+
+            services.AddScoped<IRequestHandler<UserChangePwdCommand, Unit>, UserCommandHandlers>();
+
+            //
 
             services.AddScoped<IMediatorHandler, InMemoryBus>();
 

@@ -29,5 +29,9 @@ namespace Element.Applicaion.IElementServices
         Task<MerchantViewModel> GetMerchantViewModelById(Guid id);
 
         Task<RoleMannage> GetRoleModel(Guid id);
+
+
+
+
     }
 }

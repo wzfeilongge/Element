@@ -3,11 +3,32 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Element.Domain.Validations.User
 {
   public  class UserVaildation<T> : AbstractValidator<T> where T : UserCommand
     {
+        /// <summary>
+        /// 包含小写字母
+        /// </summary>
+        private const string REG_CONTAIN_LOWERCASE_ASSERTION =
+            @"(?=.*[a-z])";
+
+        /// <summary>
+        /// 包含大写字母
+        /// </summary>
+        private const string REG_CONTAIN_UPPERCASE_ASSERTION =
+            @"(?=.*[A-Z])";
+
+        /// <summary>
+        /// 包含数字
+        /// </summary>
+        private const string REG_CONTAIN_DIGIT_ASSERTION =
+            @"(?=.*\d)";
+
+
+
 
 
         protected void ValidateIdCard()
@@ -31,6 +52,49 @@ namespace Element.Domain.Validations.User
                 .Must(HavePhone)
                 .WithMessage("手机号应该为11位！");
         }
+
+        protected void ValidateEmail() {
+
+            RuleFor(c => c.Email)
+                 .NotEmpty()
+                 .Must(HasEmail)
+                 .WithMessage("请输入正确的邮箱");        
+        }
+
+
+        protected void ValidatePwd()
+        {
+            RuleFor(c => c.Password)
+                .NotNull()
+                .Must(HasPwd)
+                .WithMessage("必须包含数字小写英文");
+
+
+        }
+
+
+        #region 验证密码规则
+
+        public static bool HasPwd(string source) 
+        {
+            return Regex.IsMatch(source, REG_CONTAIN_LOWERCASE_ASSERTION, RegexOptions.IgnoreCase) == true
+             //   && Regex.IsMatch(source, REG_CONTAIN_UPPERCASE_ASSERTION, RegexOptions.IgnoreCase) == true
+                && Regex.IsMatch(source, REG_CONTAIN_DIGIT_ASSERTION, RegexOptions.IgnoreCase) == true;
+        }
+        #endregion
+
+        #region 验证邮箱
+        /**//// <summary>
+            /// 验证邮箱
+            /// </summary>
+            /// <param name="source"></param>
+            /// <returns></returns>
+
+        public static bool HasEmail(string source)
+        {
+            return Regex.IsMatch(source, @"[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})", RegexOptions.IgnoreCase);
+        }
+        #endregion
 
 
         #region 认证手机号码

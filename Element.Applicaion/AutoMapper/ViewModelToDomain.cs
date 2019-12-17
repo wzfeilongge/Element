@@ -26,10 +26,11 @@ namespace Element.Applicaion.AutoMapper
             CreateMap<UserViewModel, User>()
                 .ForMember(v => v.Address, o => o.MapFrom(m => m.Address));
             CreateMap<UserViewModel, UserCommand>().ConstructUsing
-                (c=> new UserCommand(c.UserName,c.IdCard,c.Address,c.Phone));
+                (c=> new UserCommand(c.UserName,c.IdCard,c.Address,c.Phone,c.Password,c.Email));
 
 
-
+            CreateMap<UserViewModel, UserChangePwdCommand>().ConstructUsing
+                (c => new UserChangePwdCommand(c.UserName, c.SecendPassword, c.NewPasswords, c.Password));
 
 
         }

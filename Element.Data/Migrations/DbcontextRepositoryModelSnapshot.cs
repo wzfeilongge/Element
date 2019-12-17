@@ -89,9 +89,13 @@ namespace Element.Data.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("IdCard");
 
                     b.Property<string>("Name");
+
+                    b.Property<string>("Password");
 
                     b.Property<string>("Phone");
 

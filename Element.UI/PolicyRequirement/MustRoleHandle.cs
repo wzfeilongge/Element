@@ -34,13 +34,14 @@ namespace Element.UI.PolicyRequirement
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRole requirement)
         {
+          
 
-            var data = _RoleManngeRepository.GetAll(u => u.Id != null);
+            var data = _RoleManngeRepository.GetAll(u => u.Id != null&&u.IsTrueRold==true);
             var list = await (from item in data
                               orderby item.Id
                               select new UserPermission
                               {
-                                  Policy = item.RoleName
+                                  Policy = item.RoleName,                                                                  
                               }).ToListAsync();
 
             requirement.UserPermissions = list;
@@ -78,12 +79,13 @@ namespace Element.UI.PolicyRequirement
                         {
                             // 获取当前用户的角色信息
                             var currentUserRoles = (from item in httpContext.User.Claims
-                                                    where item.Type == requirement.ClaimType
+                                                          where item.Type == requirement.ClaimType
+                                                           && requirement.UserPermissions.Count>0                                                    
                                                     select item.Value).ToList();
                             //验证权限
                             if (currentUserRoles.Count <= 0)
                             {
-                                context.Fail();
+                                httpContext.Response.Redirect(requirement.DeniedAction);
                                 return;
                             }
                         }
@@ -91,10 +93,9 @@ namespace Element.UI.PolicyRequirement
                         return;
                     }
                     else
-                    {
+                    {                    
                         context.Fail();
                         return;
-
                     }
                 }
                 else

@@ -21,17 +21,22 @@ namespace Element.Domain.Commands
 
         public string Address { get; private set; }
 
+        public string Password { get; private set; }
 
         public string Phone { get; private set; }
 
+        public string Email { get; private set; }
 
-        public UserCommand(string Name, string idCard, string Address, string Phone)
+
+        public UserCommand(string Name, string idCard, string Address, string Phone,string Password,string Email)
         {
 
             this.Name = Name;
             this.IdCard = idCard;
             this.Address = Address;
             this.Phone = Phone;
+            this.Password = Password;
+            this.Email = Email;
 
         }
 

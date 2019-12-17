@@ -21,12 +21,17 @@ namespace Element.UI.PolicyRequirement
             this.ClaimType = ClaimType;
         }
 
+        public bool Istrue { get; set; }
+
+
         public class UserPermission
         {
             /// <summary>
             /// Policy权限
             /// </summary>
             public string Policy { get; set; }
+
+
 
         }
 
@@ -43,6 +48,8 @@ namespace Element.UI.PolicyRequirement
 
 
         public string LoginPath { get; set; } = "/Api/Login";
+
+
 
 
 

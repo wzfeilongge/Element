@@ -25,11 +25,11 @@ namespace Element.Common.Common
         {
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
-                throw new ArgumentNullException("plainText");
+                throw new ArgumentNullException(nameof(plainText));
             if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
+                throw new ArgumentNullException(nameof(Key));
             if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
+                throw new ArgumentNullException(nameof(IV));
             byte[] encrypted;
 
             // Create an Aes object
@@ -86,11 +86,11 @@ namespace Element.Common.Common
         {
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException("cipherText");
+                throw new ArgumentNullException(nameof(cipherText));
             if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
+                throw new ArgumentNullException(nameof(Key));
             if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
+                throw new ArgumentNullException(nameof(IV));
 
             // Declare the string used to hold
             // the decrypted text.

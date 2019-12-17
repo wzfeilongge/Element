@@ -7,7 +7,7 @@ namespace Element.Core.Events
    public class UserRegisterEvent : Event
     {
 
-        public UserRegisterEvent(Guid id, string name, string phone, string address,string IdCard)
+        public UserRegisterEvent(Guid id, string name, string phone, string address,string IdCard,string Email,string Pwd)
         {
             this.Id = id;
             this.Name = name;
@@ -15,6 +15,8 @@ namespace Element.Core.Events
             this.AggregateId = id;
             this.IdCard = IdCard;
             this.Address = address;
+            this.Email = Email;
+            this.Pwd = Pwd;
         }
 
         public Guid Id { get; private set; }
@@ -24,6 +26,9 @@ namespace Element.Core.Events
         public  string Address { get; private set; }
         public  string IdCard { get; private set; }
 
+        public string Email { get;  private set; }
+
+        public string Pwd { get;  private set; }
 
 
 

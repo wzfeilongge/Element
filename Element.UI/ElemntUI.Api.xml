@@ -28,16 +28,15 @@
             <param name="userViewModel"></param>
             <returns></returns>
         </member>
-        <member name="M:Element.UI.Controllers.UserController.QueryById(Element.Applicaion.ViewModels.UserViewModel)">
+        <member name="M:Element.UI.Controllers.UserController.QueryAll">
             <summary>
             用户名和手机号码查询用户
             </summary>
-            <param name="ViewModel"></param>
             <returns></returns>
         </member>
         <member name="M:Element.UI.Controllers.UserController.Login(Element.Applicaion.ViewModels.UserViewModel)">
             <summary>
-            用户名和身份证号登录
+            用户名和密码登录
             </summary>
             <param name="ViewModel"></param>
             <returns></returns>
@@ -61,9 +60,9 @@
             令牌
             </summary>
         </member>
-        <member name="P:Element.UI.JwtHelper.TokenModelJwt.Uid">
+        <member name="P:Element.UI.JwtHelper.TokenModelJwt.Name">
             <summary>
-            Id
+            用户名称
             </summary>
         </member>
         <member name="P:Element.UI.JwtHelper.TokenModelJwt.Role">
@@ -71,9 +70,9 @@
             角色
             </summary>
         </member>
-        <member name="P:Element.UI.JwtHelper.TokenModelJwt.Name">
+        <member name="P:Element.UI.JwtHelper.TokenModelJwt.Uid">
             <summary>
-            用户名称
+            Id
             </summary>
         </member>
         <member name="M:Element.UI.Log.ILoggerHelper.Debug(System.Object,System.String)">

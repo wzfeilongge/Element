@@ -36,6 +36,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Element.Common.Common;
 
 namespace Element.UI
 {
@@ -98,6 +99,8 @@ namespace Element.UI
 
             #endregion
 
+            #region 授权认证
+             
             services.AddSingleton<IJwtInterface, JwtHelpers>(); //注入jwt
             services.AddScoped<IAuthorizationHandler, MustRoleHandle>();
             services.AddAuthorization(options =>
@@ -106,6 +109,8 @@ namespace Element.UI
                        policy => policy.Requirements.Add(new PolicyRole(ClaimTypes.Role))
               );
             });
+
+            #endregion
 
             #region 给予权限，访问API
             var audienceConfig = Configuration.GetSection("Audience");
@@ -119,6 +124,10 @@ namespace Element.UI
                 ValidateIssuer = true,
                 ValidIssuer = audienceConfig["Issuer"],//发行人
                 ValidateAudience = true,
+                //AudienceValidator = (m, n, z) =>
+                //{
+                //    return m != null && m.FirstOrDefault().Equals(JwtConst.ValidAudience);
+                //},
                 ValidAudience = audienceConfig["Audience"],//订阅人
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,

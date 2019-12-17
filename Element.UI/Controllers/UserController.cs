@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Element.Applicaion.IElementServices;
 using Element.Applicaion.ViewModels;
+using Element.Common.Common;
 using Element.Core.Events;
 using Element.Core.Notifications;
 using Element.UI.JwtHelper;
@@ -63,7 +64,7 @@ namespace Element.UI.Controllers
                 {
                     Sucess = false,
                     Message = _Notifications.GetErrorMessage()
-                }); ;
+                }); 
             }
             catch (Exception e)
             {
@@ -85,10 +86,8 @@ namespace Element.UI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RegisterCard([FromBody] UserViewModel userViewModel)
         {
-
             if (ModelState.IsValid)
             {
-
                 await _UserService.Register(userViewModel);
                 if (!_Notifications.HasNotifications())
                 {
@@ -104,31 +103,29 @@ namespace Element.UI.Controllers
                 Sucess = false,
                 Message = _Notifications.GetErrorMessage()
             }); ;
-
-
         }
 
 
         /// <summary>
         /// 用户名和手机号码查询用户
         /// </summary>
-        /// <param name="ViewModel"></param>
         /// <returns></returns>
-        [HttpGet("QueryById")]
+        [HttpGet("QueryAll")]
         [Authorize(Permissions.Name)]
-        public async Task<IActionResult> QueryById([FromBody] UserViewModel ViewModel)
+        public async Task<IActionResult> QueryAll()
         {
             if (ModelState.IsValid)
             {
-                var model = await _UserService.GetUserById(ViewModel);
+                var models = await _UserService.GetUserAll();
+
+                 var model= _UserService.GetDto(models);
                 if (model != null)
                 {
                     return Ok(new
                     {
                         sucess = true,
                         Message = "获取成功",
-                        model.Name,
-                        model.Phone
+                        model
                     });
                 }
             }
@@ -140,7 +137,7 @@ namespace Element.UI.Controllers
         }
 
         /// <summary>
-        /// 用户名和身份证号登录
+        /// 用户名和密码登录
         /// </summary>
         /// <param name="ViewModel"></param>
         /// <returns></returns>
@@ -158,14 +155,13 @@ namespace Element.UI.Controllers
                     {
                         Role = role.RoleName,
                         Uid = ((role.Id)),
-                        Name = model.Name
+                        Name = model.Name,
                     };
                     var token = _IJwtInterface.IssueJwt(t);
-
                     return Ok(new
                     {
                         sucess = true,
-                        Message = "获取成功",
+                        Message = "登录成功",
                         token
                     });
                 }
@@ -173,43 +169,33 @@ namespace Element.UI.Controllers
             return Ok(new
             {
                 sucess = false,
-                Message = "获取成功",
+                Message = "登录失败",
                 token = "error"
             });
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        [HttpPut("EditUser")]
+        [Authorize(Permissions.Name)]
+        public async Task<IActionResult> EditUser([FromBody]UserViewModel ViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await _UserService.ChangePwd(ViewModel);
+                if (!_Notifications.HasNotifications())
+                {
+                    return Ok(new
+                    {
+                        Sucess = true,
+                        Message = "修改成功"
+                    });
+                }
+            }
+            return Ok(new
+            {
+                sucess = false,
+                Message = _Notifications.GetErrorMessage()
+            }) ;
+        }
     }
 }

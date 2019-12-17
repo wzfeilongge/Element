@@ -14,6 +14,14 @@ namespace Element.Applicaion.IElementServices
 
         Task<User> GetUserById(UserViewModel userViewModel);
 
+        Task<List<User>> GetUserAll();
+
+        List<UserDto> GetDto(List<User> users);
+
+
+        Task ChangePwd(UserViewModel userViewModel);
+
+
 
 
     }

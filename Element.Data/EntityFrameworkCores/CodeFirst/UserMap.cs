@@ -26,6 +26,10 @@ namespace Element.Data.EntityFrameworkCores.CodeFirst
             builder.Property(c => c.Address).HasColumnType("varchar(50)")
                 .HasMaxLength(50)
                 .IsRequired(false);
+            builder.Property(c => c.Password).HasColumnType("varchar(30)")
+                .HasMaxLength(30).IsRequired(true);
+            builder.Property(c => c.Email).HasColumnType("varchar(30)")
+              .HasMaxLength(30).IsRequired(true);
 
             builder.HasAlternateKey(c => c.IdCard);
 

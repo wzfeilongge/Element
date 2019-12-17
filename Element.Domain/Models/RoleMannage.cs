@@ -25,7 +25,7 @@ namespace Element.Domain.Models
         /// <summary>
         /// 名称
         /// </summary>
-        public string RoleName { get; set; }
+        public string RoleName { get;  private set; }
 
         /// <summary>
         /// 权限创建时间
@@ -37,5 +37,7 @@ namespace Element.Domain.Models
         /// 是否启动
         /// </summary>
         public bool IsTrueRold { get; set; }
+
+
     }
 }

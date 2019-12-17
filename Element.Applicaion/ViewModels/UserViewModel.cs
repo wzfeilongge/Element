@@ -32,5 +32,30 @@ namespace Element.Applicaion.ViewModels
         public string Address { get; set; }
 
 
+        /// <summary>
+        /// 登录密码
+        /// </summary>
+        public string Password { get; set; }
+
+
+        /// <summary>
+        /// 新密码
+        /// </summary>
+        public string NewPasswords { get; set; }
+
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        public string SecendPassword { get; set; }
+
+
+
+
+
+
+        public string Email { get; set; }
+
+
     }
 }

@@ -25,9 +25,10 @@ namespace Element.UI.Aop.Fiter
 
         public void OnException(ExceptionContext context)
         {
-            var json = new JsonErrorResponse();
-
-            json.Message = context.Exception.Message;//错误信息
+            var json = new JsonErrorResponse
+            {
+                Message = context.Exception.Message//错误信息
+            };
             if (_env.IsDevelopment())
             {
                 json.DevelopmentMessage = context.Exception.StackTrace;//堆栈信息

@@ -31,6 +31,8 @@ namespace Element.Applicaion.ElementServices
             _RoleManngeRepository = roleManngeRepository;
         }
 
+   
+
         public IEnumerable<MerchantViewModel> GetAll()
         {
             return _Mapper.Map<IEnumerable<MerchantViewModel>>(_MerchantRepository.GetAll(o=>o.Id!=null));
@@ -50,7 +52,6 @@ namespace Element.Applicaion.ElementServices
         {
             var registerCommand = _Mapper.Map<MerchantCommands>(merchantViewModel);
             await _Bus.SendCommand(registerCommand);
-
         }
     }
 }

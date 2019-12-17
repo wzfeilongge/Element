@@ -29,18 +29,31 @@ namespace Element.Domain.Models
         public string Phone { get; set; }
 
 
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public  string Password { get; set; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { get; set; }
+
+
 
         public User()
         {
 
         }
-        public User(Guid Id,string IdCard,string Name,string Address,string Phone)
+        public User(Guid Id,string IdCard,string Name,string Address,string Phone,string Password,string Email)
         {
             this.Id = Id;
             this.IdCard = IdCard;
             this.Name = Name;
             this.Address = Address;
             this.Phone = Phone;
+            this.Password = Password;
+            this.Email = Email;
         }
 
 
