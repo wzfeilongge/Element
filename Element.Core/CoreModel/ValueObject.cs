@@ -18,8 +18,7 @@ namespace Element.Core.CoreModel
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            var valueObject = obj as T;
-            return !ReferenceEquals(valueObject, null) && EqualsCore(valueObject);
+            return obj is T valueObject && EqualsCore(valueObject);
         }
 
         protected abstract bool EqualsCore(T other);
@@ -41,10 +40,10 @@ namespace Element.Core.CoreModel
         /// <returns></returns>
         public static bool operator ==(ValueObject<T> a, ValueObject<T> b)
         {
-            if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            if (a is null && b is null)
                 return true;
 
-            if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
+            if (a is null || b is null)
                 return false;
 
             return a.Equals(b);

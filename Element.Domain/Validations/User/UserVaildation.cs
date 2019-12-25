@@ -9,6 +9,8 @@ namespace Element.Domain.Validations.User
 {
   public  class UserVaildation<T> : AbstractValidator<T> where T : UserCommand
     {
+        #region
+
         /// <summary>
         /// 包含小写字母
         /// </summary>
@@ -26,10 +28,6 @@ namespace Element.Domain.Validations.User
         /// </summary>
         private const string REG_CONTAIN_DIGIT_ASSERTION =
             @"(?=.*\d)";
-
-
-
-
 
         protected void ValidateIdCard()
         {
@@ -61,15 +59,12 @@ namespace Element.Domain.Validations.User
                  .WithMessage("请输入正确的邮箱");        
         }
 
-
         protected void ValidatePwd()
         {
             RuleFor(c => c.Password)
                 .NotNull()
                 .Must(HasPwd)
                 .WithMessage("必须包含数字小写英文");
-
-
         }
 
 
@@ -95,7 +90,6 @@ namespace Element.Domain.Validations.User
             return Regex.IsMatch(source, @"[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})", RegexOptions.IgnoreCase);
         }
         #endregion
-
 
         #region 认证手机号码
         protected static bool HavePhone(string phone)
@@ -166,5 +160,7 @@ namespace Element.Domain.Validations.User
 
         #endregion
 
+
+        #endregion
     }
 }

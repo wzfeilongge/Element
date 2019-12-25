@@ -1,4 +1,5 @@
-﻿using Element.Applicaion.ViewModels;
+﻿using Element.Applicaion.EventSourcedNormalizers;
+using Element.Applicaion.ViewModels;
 using Element.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -9,18 +10,24 @@ namespace Element.Applicaion.IElementServices
 {
    public interface IUserService
     {
-        Task Register(UserViewModel userViewModel);
+        Task Register(RegisterViewModel userViewModel);
 
 
-        Task<User> GetUserById(UserViewModel userViewModel);
+        Task Login(UserLoginModel loginModel);
+
+
+        Task<User> GetUserById(UserLoginModel userViewModel);
 
         Task<List<User>> GetUserAll();
 
         List<UserDto> GetDto(List<User> users);
 
 
-        Task ChangePwd(UserViewModel userViewModel);
+        Task ChangePwd(UserEditViewModel userViewModel);
 
+
+
+        Task<IList<UserHistoryData>> GetAllHistory(Guid id);
 
 
 

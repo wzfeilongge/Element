@@ -30,13 +30,15 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.Options;
 using NLog.Extensions.Logging;
 using NLog.Web;
-using Element.UI.JwtHelper;
 using Element.UI.PolicyRequirement;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Element.Common.Common;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Element.UI.ApiAuth;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Element.UI
 {
@@ -101,12 +103,12 @@ namespace Element.UI
 
             #region 授权认证
              
-            services.AddSingleton<IJwtInterface, JwtHelpers>(); //注入jwt
+            //services.AddSingleton<IJwtInterface, JwtHelpers>(); //注入jwt
             services.AddScoped<IAuthorizationHandler, MustRoleHandle>();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(Permissions.Name,
-                       policy => policy.Requirements.Add(new PolicyRole(ClaimTypes.Role))
+                       policy => policy.Requirements.Add(new PolicyRole(ClaimTypes.Role,true))
               );
             });
 
@@ -133,11 +135,22 @@ namespace Element.UI
                 ClockSkew = TimeSpan.Zero,
                 RequireExpirationTime = true
             };
-            services.AddAuthentication("Bearer")
+            services.AddAuthentication(o =>
+            {
+
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = nameof(ApiResponseHandler);
+                o.DefaultForbidScheme = nameof(ApiResponseHandler);
+            })
             .AddJwtBearer(o =>
             {
                 o.TokenValidationParameters = tokenValidationParameters;
-            });
+            })
+            .AddScheme<AuthenticationSchemeOptions, ApiResponseHandler>(nameof(ApiResponseHandler),o=> 
+            { 
+           
+            
+            }); ;
 
             #endregion
 
@@ -167,6 +180,7 @@ namespace Element.UI
                 app.UseExceptionHandler("/Error");
             }
             app.UseSwagger();
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");

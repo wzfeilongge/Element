@@ -16,15 +16,16 @@ namespace Element.Domain.Commands
 
         public string UserName { get;  private set; }
 
-        public string Ip { get; set; }
+        public string Ip { get;  private set; }
 
 
-        public UserChangePwdCommand(string UserName, string NewPassword, string NewPasswords, string OldPassword)
+        public UserChangePwdCommand(string UserName, string NewPassword, string NewPasswords, string OldPassword, string Ip)
         {
             this.UserName = UserName;
             this.NewPassword = NewPassword;
             this.NewPasswords = NewPasswords;
             this.OldPassword = OldPassword;
+            this.Ip = Ip;
         }
 
         public override bool IsValid()

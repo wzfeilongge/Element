@@ -57,8 +57,6 @@ namespace Element.Data.Bus
             {
                 _eventStoreService?.Save(@event);
             }
-               
-
             // MediatR中介者模式中的第二种方法，发布/订阅模式
             return _mediator.Publish(@event);
         }

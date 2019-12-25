@@ -24,12 +24,10 @@ namespace Element.Applicaion.EventSource
         {
             var name = typeof(T).Name;
             var serializedData = JsonConvert.SerializeObject(theEvent);
-
             var storedEvent = new StoredEvent(
                 theEvent,
                 serializedData,
                 name);
-
             _EventStoreRepository.Store(storedEvent);
         }
     }

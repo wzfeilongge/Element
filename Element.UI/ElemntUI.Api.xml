@@ -14,18 +14,11 @@
             开发环境的消息
             </summary>
         </member>
-        <member name="M:Element.UI.Controllers.UserController.RegisterMerchant(Element.Applicaion.ViewModels.MerchantViewModel)">
+        <member name="M:Element.UI.Controllers.UserController.Login(Element.Applicaion.ViewModels.UserLoginModel)">
             <summary>
-            注册一个商户
+            用户名和密码登录
             </summary>
             <param name="ViewModel"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Element.UI.Controllers.UserController.RegisterCard(Element.Applicaion.ViewModels.UserViewModel)">
-            <summary>
-            身份证号码注册用户
-            </summary>
-            <param name="userViewModel"></param>
             <returns></returns>
         </member>
         <member name="M:Element.UI.Controllers.UserController.QueryAll">
@@ -34,46 +27,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Element.UI.Controllers.UserController.Login(Element.Applicaion.ViewModels.UserViewModel)">
+        <member name="M:Element.UI.Controllers.UserController.RegisterCard(Element.Applicaion.ViewModels.RegisterViewModel)">
             <summary>
-            用户名和密码登录
+            注册用户
             </summary>
-            <param name="ViewModel"></param>
+            <param name="userViewModel"></param>
             <returns></returns>
-        </member>
-        <member name="M:Element.UI.JwtHelper.JwtHelpers.IssueJwt(Element.UI.JwtHelper.TokenModelJwt)">
-            <summary>
-            颁发JWT字符串
-            </summary>
-            <param name="tokenModel"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Element.UI.JwtHelper.JwtHelpers.SerializeJwt(System.String)">
-            <summary>
-            解析
-            </summary>
-            <param name="jwtStr"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Element.UI.JwtHelper.TokenModelJwt">
-            <summary>
-            令牌
-            </summary>
-        </member>
-        <member name="P:Element.UI.JwtHelper.TokenModelJwt.Name">
-            <summary>
-            用户名称
-            </summary>
-        </member>
-        <member name="P:Element.UI.JwtHelper.TokenModelJwt.Role">
-            <summary>
-            角色
-            </summary>
-        </member>
-        <member name="P:Element.UI.JwtHelper.TokenModelJwt.Uid">
-            <summary>
-            Id
-            </summary>
         </member>
         <member name="M:Element.UI.Log.ILoggerHelper.Debug(System.Object,System.String)">
             <summary>

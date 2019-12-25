@@ -24,15 +24,13 @@ namespace Element.Data
 
         public async Task<IList<StoredEvent>> All(Guid aggregateId)
         {
-            return  await base.GetModelAsync(e => e.AggregateId == aggregateId).ToAsyncEnumerable().ToList();
+            return  await base.GetAll(e => e.AggregateId == aggregateId).ToAsyncEnumerable().ToList();
         }
 
         public async Task Store(StoredEvent theEvent)
         {
             await base.AddModel(theEvent);
-            //return;
-
-           
+            //return;          
         }
     }
 }

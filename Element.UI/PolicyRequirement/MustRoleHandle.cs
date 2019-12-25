@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +15,17 @@ namespace Element.UI.PolicyRequirement
 {
     public class MustRoleHandle : AuthorizationHandler<PolicyRole>
     {
-        public IAuthenticationSchemeProvider _Schemes { get; set; }
-        private readonly IHttpContextAccessor _accessor;
+        public IAuthenticationSchemeProvider Schemes;
+        private readonly IHttpContextAccessor _Accessor;
         private readonly IRoleManngeRepository _RoleManngeRepository;
 
         public MustRoleHandle(IAuthenticationSchemeProvider authenticationSchemeProvider, IHttpContextAccessor httpContextAccessor,
             IRoleManngeRepository roleManngeRepository
             )
         {
-            _Schemes = authenticationSchemeProvider;
-            _accessor = httpContextAccessor;
+            Schemes = authenticationSchemeProvider;
+            _Accessor = httpContextAccessor;
             _RoleManngeRepository = roleManngeRepository;
-
-
         }
 
 
@@ -34,30 +33,29 @@ namespace Element.UI.PolicyRequirement
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRole requirement)
         {
-          
-
-            var data = _RoleManngeRepository.GetAll(u => u.Id != null&&u.IsTrueRold==true);
+            var data = _RoleManngeRepository.GetAll(u => u.Id != null && u.IsTrueRold == requirement.Istrue);
             var list = await (from item in data
                               orderby item.Id
                               select new UserPermission
                               {
-                                  Policy = item.RoleName,                                                                  
+                                  Policy = item.RoleName,
+                                  Id = item.Id,
+                                  IsEnabled = item.IsTrueRold
                               }).ToListAsync();
 
             requirement.UserPermissions = list;
-
             var filterContext = (context.Resource as Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext);
             var httpContext = (context.Resource as Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)?.HttpContext;
             if (httpContext == null)
             {
-                httpContext = _accessor.HttpContext;
+                httpContext = _Accessor.HttpContext;
             }
             if (httpContext != null)
             {
                 var questUrl = httpContext.Request.Path.Value.ToLower();
                 //判断请求是否停止
                 var handlers = httpContext.RequestServices.GetRequiredService<IAuthenticationHandlerProvider>();
-                foreach (var scheme in await _Schemes.GetRequestHandlerSchemesAsync())
+                foreach (var scheme in await Schemes.GetRequestHandlerSchemesAsync())
                 {
                     if (await handlers.GetHandlerAsync(httpContext, scheme.Name) is IAuthenticationRequestHandler handler && await handler.HandleRequestAsync())
                     {
@@ -65,35 +63,48 @@ namespace Element.UI.PolicyRequirement
                         return;
                     }
                 }
-                //判断请求是否拥有凭据，即有没有登录
-                var defaultAuthenticate = await _Schemes.GetDefaultAuthenticateSchemeAsync();
+                var defaultAuthenticate = await Schemes.GetDefaultAuthenticateSchemeAsync();
                 if (defaultAuthenticate != null)
                 {
                     var result = await httpContext.AuthenticateAsync(defaultAuthenticate.Name);
-                    //result?.Principal不为空即登录成功
                     if (result?.Principal != null)
                     {
                         httpContext.User = result.Principal;
-                        //权限中是否存在请求的角色类型
-                        if (true)
+                        var currentUserRoles = (from item in httpContext.User.Claims
+                                                where item.Type == "jti" || item.Type == requirement.ClaimType
+                                                select item.Value.ToString()).ToList();
+                        if (currentUserRoles.Count < 2)
                         {
-                            // 获取当前用户的角色信息
-                            var currentUserRoles = (from item in httpContext.User.Claims
-                                                          where item.Type == requirement.ClaimType
-                                                           && requirement.UserPermissions.Count>0                                                    
-                                                    select item.Value).ToList();
-                            //验证权限
-                            if (currentUserRoles.Count <= 0)
+                            httpContext.Response.Redirect(requirement.DeniedAction);
+                            return;
+                        }
+                        var userPermission = new UserPermission();
+                        foreach (var role in currentUserRoles)
+                        {
+                            if (string.IsNullOrEmpty(userPermission.Policy))
                             {
-                                httpContext.Response.Redirect(requirement.DeniedAction);
-                                return;
+                                var permission = list.Where(x => ((x.Id.ToString().Equals(role)))).FirstOrDefault();
+
+                                if (permission != null)
+                                {
+                                    userPermission = permission;
+                                }
                             }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        if (string.IsNullOrEmpty(userPermission.Policy))
+                        {
+                            context.Fail();
+                            return;
                         }
                         context.Succeed(requirement);
                         return;
                     }
                     else
-                    {                    
+                    {
                         context.Fail();
                         return;
                     }
@@ -101,20 +112,16 @@ namespace Element.UI.PolicyRequirement
                 else
                 {
                     //是登录的api请求
-                    if (!questUrl.Equals(requirement.LoginPath.ToLower()))
-                    {
+                    //if (!questUrl.Equals(requirement.LoginPath.ToLower()))
+                    //{
 
-                        context.Succeed(requirement);
-                        return;
-                    }
+                    //    context.Succeed(requirement);
+                    //    return;
+                    //}
                     context.Fail();
                 }
-
             }
-
-
             return;
-
         }
     }
 }

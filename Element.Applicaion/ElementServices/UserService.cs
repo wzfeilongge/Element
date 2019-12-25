@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Element.Applicaion.EventSourcedNormalizers;
 using Element.Applicaion.IElementServices;
 using Element.Applicaion.ViewModels;
 using Element.Common.Common;
@@ -21,44 +22,65 @@ namespace Element.Applicaion.ElementServices
         private readonly IMediatorHandler _Bus;
 
         private readonly IUserRepository _UserRepository;
-        public UserService(IMapper Mapper, IMediatorHandler Bus, IUserRepository UserRepository)
+
+
+        private readonly IEventStoreRepository _EventStoreRepository;
+        public UserService(IMapper Mapper, IMediatorHandler Bus, IUserRepository UserRepository, IEventStoreRepository EventStoreRepository)
         {
             _Mapper = Mapper;
             _Bus = Bus;
             _UserRepository = UserRepository;
+            _EventStoreRepository = EventStoreRepository;
         }
 
-        public async Task ChangePwd(UserViewModel userViewModel)
+        public async Task ChangePwd(UserEditViewModel userViewModel)
         {
             var EditCommand = _Mapper.Map<UserChangePwdCommand>(userViewModel);
 
-            await  _Bus.SendCommand(EditCommand);
+            await _Bus.SendCommand(EditCommand);
 
-             return  ;
+            return;
+        }
+
+        public async Task<IList<UserHistoryData>> GetAllHistory(Guid id)
+        {
+
+
+            return UserHistory.ToJavaScriptUserHistory(await _EventStoreRepository.All(id));
         }
 
         public List<UserDto> GetDto(List<User> users)
-        {        
+        {
             return _Mapper.Map<List<UserDto>>(users);
         }
 
-        public  async Task<List<User>> GetUserAll()
+        public async Task<List<User>> GetUserAll()
         {
-            return   await _UserRepository.GetAll(u=>u.Id!=null).ToListAsync();
+            return await _UserRepository.GetAll(u => u.Id != null).ToListAsync();
         }
 
-        public  async Task<User> GetUserById(UserViewModel userViewModel)
+        public async Task<User> GetUserById(UserLoginModel userViewModel)
         {
             userViewModel.Password = Encrypt.EncryptPassword(userViewModel.Password);
-           return await _UserRepository.GetModelAsync(u=>u.Name==userViewModel.UserName&&u.Password==userViewModel.Password);
+            return await _UserRepository.GetModelAsync(u => u.Name == userViewModel.UserName && u.Password == userViewModel.Password);
         }
 
-        public async Task Register(UserViewModel userViewModel)
+        public async Task Login(UserLoginModel loginModel)
         {
-           var registerCommand = _Mapper.Map<UserCommand>(userViewModel);
+            UserLoginCommand command = _Mapper.Map<UserLoginCommand>(loginModel);
 
-           await _Bus.SendCommand(registerCommand);
+            await _Bus.SendCommand(command);
 
         }
+
+        public async Task Register(RegisterViewModel userViewModel)
+        {
+            var registerCommand = _Mapper.Map<UserCommand>(userViewModel);
+
+            await _Bus.SendCommand(registerCommand);
+
+        }
+
+     
     }
 }

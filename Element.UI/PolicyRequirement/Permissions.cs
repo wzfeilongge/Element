@@ -7,7 +7,6 @@ namespace Element.UI.PolicyRequirement
 {
     public  static class Permissions
     {
-
         public const string Name = "Permission";
     }
 }

@@ -10,7 +10,7 @@ namespace Element.UI.PolicyRequirement
     public class PolicyRole : IAuthorizationRequirement
     {
 
-        public PolicyRole(string ClaimType)
+        public PolicyRole(string ClaimType,bool IsTrue)
         {
             //没有权限则跳转到这个路由
             DeniedAction = new PathString(LoginPath);
@@ -19,9 +19,10 @@ namespace Element.UI.PolicyRequirement
                               new UserPermission { Policy=Permissions.Name},
             };
             this.ClaimType = ClaimType;
+            this.Istrue = IsTrue;
         }
 
-        public bool Istrue { get; set; }
+
 
 
         public class UserPermission
@@ -32,8 +33,15 @@ namespace Element.UI.PolicyRequirement
             public string Policy { get; set; }
 
 
+            public Guid Id { get; set; }
+
+
+            public bool IsEnabled { get; set; }
 
         }
+
+
+        public bool Istrue { get; set; }
 
         public string ClaimType { internal get; set; }
 
@@ -47,7 +55,7 @@ namespace Element.UI.PolicyRequirement
         public string DeniedAction { get; set; }
 
 
-        public string LoginPath { get; set; } = "/Api/Login";
+        public string LoginPath { get; set; } = "/Api/user/Login";
 
 
 

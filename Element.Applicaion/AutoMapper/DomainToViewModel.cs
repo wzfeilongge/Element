@@ -24,11 +24,6 @@ namespace Element.Applicaion.AutoMapper
            .ForMember(m => m.Phone, o => o.MapFrom(v => v.Phone))
            .ForMember(m => m.UserName, o => o.MapFrom(v => v.Name));
 
-           // CreateMap<UserDto, User>()
-           //.ForMember(m => m.Name, o => o.MapFrom(v => v.UserName))
-           //.ForMember(m => m.Email, o => o.MapFrom(v => v.Email))
-           //.ForMember(m => m.Phone, o => o.MapFrom(v => v.Phone));
-
             CreateMap<User, UserDto>()
            .ForMember(m => m.UserName, o => o.MapFrom(v => v.Name))
            .ForMember(m => m.Email, o => o.MapFrom(v => v.Email))

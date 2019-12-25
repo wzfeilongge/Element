@@ -3,6 +3,7 @@ using Element.Applicaion.AutoMapper;
 using Element.Applicaion.ElementServices;
 using Element.Applicaion.EventSource;
 using Element.Applicaion.IElementServices;
+using Element.Common;
 using Element.Core.Bus;
 using Element.Core.Events;
 using Element.Core.Notifications;
@@ -33,12 +34,13 @@ namespace Element.UI.Extensions
         public static void InitServices(IServiceCollection services)
         {
             
-
             services.AddScoped<DbcontextRepository>();  //主
 
             services.AddScoped<BackDbcontextRepository>(); //从
 
             services.AddAutoMapper(typeof(AutoMapperConfig));
+
+            services.AddSingleton<IJwtInterface, JwtHelpers>();
 
             AutoMapperConfig.RegisterMappings();
 
@@ -77,7 +79,9 @@ namespace Element.UI.Extensions
 
             services.AddScoped<INotificationHandler<UserRegisterEvent>, UserEventHandler>();
 
-            services.AddScoped<INotificationHandler<ChangePwd>, UserEventHandler>();
+            services.AddScoped<INotificationHandler<ChangePwdEvent>, UserEventHandler>();
+
+           
 
 
             //领域命令
@@ -87,7 +91,8 @@ namespace Element.UI.Extensions
 
             services.AddScoped<IRequestHandler<UserChangePwdCommand, Unit>, UserCommandHandlers>();
 
-            //
+            //UserLoginCommand   没有领域事件
+            services.AddScoped<IRequestHandler<UserLoginCommand,Unit>,UserCommandHandlers>();
 
             services.AddScoped<IMediatorHandler, InMemoryBus>();
 
