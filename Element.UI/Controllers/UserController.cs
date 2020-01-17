@@ -83,7 +83,7 @@ namespace Element.UI.Controllers
             var sucess = Convert.ToBoolean((from item in list
                                             where item.Key == "Sucess"
                                             select item.Value.ToString())
-                          .FirstOrDefault());
+                                            .FirstOrDefault());
             var data = (from item in list
                         where item.Key == "data"
                         select item.Value).FirstOrDefault();

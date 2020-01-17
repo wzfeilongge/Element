@@ -28,12 +28,6 @@ namespace Element.Applicaion.AutoMapper
            .ForMember(m => m.UserName, o => o.MapFrom(v => v.Name))
            .ForMember(m => m.Email, o => o.MapFrom(v => v.Email))
            .ForMember(m => m.Phone, o => o.MapFrom(v => v.Phone));
-
-
-
-
-
-
         }
     }
 }

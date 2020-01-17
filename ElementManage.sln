@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Element.Common", "Element.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Element.Infra.Data", "Element.Infra.Data\Element.Infra.Data.csproj", "{9E8AE523-FE3D-43CC-B6CC-ABFAE15898BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServices", "IdentityServices\IdentityServices.csproj", "{F3A3B523-45C6-40A2-A976-DDA143B2B9AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{9E8AE523-FE3D-43CC-B6CC-ABFAE15898BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E8AE523-FE3D-43CC-B6CC-ABFAE15898BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E8AE523-FE3D-43CC-B6CC-ABFAE15898BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3A3B523-45C6-40A2-A976-DDA143B2B9AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3A3B523-45C6-40A2-A976-DDA143B2B9AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3A3B523-45C6-40A2-A976-DDA143B2B9AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3A3B523-45C6-40A2-A976-DDA143B2B9AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
