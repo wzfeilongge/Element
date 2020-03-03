@@ -40,7 +40,6 @@ namespace Element.Data.EntityFrameworkCores
             }
             else if (sql.Item1 == "4")
             {
-
                 sqlrealType = "sqlite";
             }
 

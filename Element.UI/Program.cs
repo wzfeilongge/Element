@@ -16,29 +16,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Element.UI
 {
-    public class Program
+    public static class Program
     {
-      //  private  static IUserRepository _UserRepository { get; set; }
-
-    //    private  static IRoleManngeRepository _RoleManngeRepository { get; set; }
-        public Program()
+        public static void Main(string[] args)
         {
-
-        }
-        public   static void Main(string[] args)
-        {
-
             var host = CreateWebHostBuilder(args).Build();
-
-
             using (var scope =host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var _UserRepository = services.GetRequiredService<IUserRepository>();
                 var _RoleMannngeRepositiory = services.GetRequiredService<IRoleManngeRepository>();
-                string[] str = new string[] {
-                 "IsSeedDefaultData"
-            };
+                string[] str = new string[] { "IsSeedDefaultData"  };
 
                 if (Appsettings.app(str).ObjToBool())
                 {
@@ -46,24 +34,13 @@ namespace Element.UI
                     var result = flag == true ? "成功" : "失败,数据已存在";
                          Console.WriteLine($"配置种子数据{result}");
                 }
-            }
-
-       
-
-            
+            }            
             host.Run();
-
-            
-           
-
         }
 
         public  static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
-           return WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
-        
-           
-
+           return WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();             
         }
     
        public async static Task<bool> SeedData(IRoleManngeRepository _RoleMannageRepository, IUserRepository _UserRepository)
@@ -73,7 +50,7 @@ namespace Element.UI
             {
                 return false;
             }
-            RoleMannage roleMannage = new RoleMannage(new Guid("9af7f46a-ea52-4aa3-b8c3-9fd484c2af12"), "Permission", true);
+            RoleMannage roleMannage = new RoleMannage(user1.Id, "Permission", true);
             await _UserRepository.AddModel(user1);
             await _RoleMannageRepository.AddModel(roleMannage);
             return true;

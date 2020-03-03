@@ -30,7 +30,6 @@ namespace Element.Data.EntityFrameworkCores.CodeFirst
                 .HasMaxLength(30).IsRequired(true);
             builder.Property(c => c.Email).HasColumnType("varchar(30)")
               .HasMaxLength(30).IsRequired(true);
-
             builder.HasAlternateKey(c => c.IdCard);
             
 
