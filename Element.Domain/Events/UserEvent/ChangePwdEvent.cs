@@ -7,7 +7,6 @@ namespace Element.Domain.Events.UserEvent
 {
   public  class ChangePwdEvent:Event
     {
-
         public string Name { get; private set; }
 
         public string Email { get;  private set; }
@@ -20,7 +19,6 @@ namespace Element.Domain.Events.UserEvent
             this.Email = Email;
             this.AggregateId = Id;
             this.Ip = Ip;
-
         }
 
 

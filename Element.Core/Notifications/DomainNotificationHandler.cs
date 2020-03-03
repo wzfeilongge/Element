@@ -42,7 +42,6 @@ namespace Element.Core.Notifications
             {
                 return string.Empty;
             }
-
             var errormsg = string.Join(",", GetNotifications().Where(o => string.IsNullOrEmpty(o.Key)).Select(o => o.Value));
             return errormsg;
         }

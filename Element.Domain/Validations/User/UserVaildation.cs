@@ -64,7 +64,7 @@ namespace Element.Domain.Validations.User
             RuleFor(c => c.Password)
                 .NotNull()
                 .Must(HasPwd)
-                .WithMessage("必须包含数字小写英文");
+                .WithMessage("密码必须包含数字小写英文");
         }
 
 

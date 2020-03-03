@@ -136,10 +136,7 @@ namespace Element.UI
                 ValidateIssuer = true,
                 ValidIssuer = audienceConfig["Issuer"],//发行人
                 ValidateAudience = true,
-                //AudienceValidator = (m, n, z) =>
-                //{
-                //    return m != null && m.FirstOrDefault().Equals(JwtConst.ValidAudience);
-                //},
+
                 ValidAudience = audienceConfig["Audience"],//订阅人
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,
@@ -160,7 +157,7 @@ namespace Element.UI
             { 
            
             
-            }); ;
+            }); 
 
             #endregion
 

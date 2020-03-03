@@ -42,7 +42,7 @@ namespace Element.Data.EntityFrameworkCores
             }
             else if (sql.Item1 == "3")
             {
-                optionsBuilder.UseMySQL(sql.Item2);
+                optionsBuilder.UseMySql(sql.Item2);
             }
             else if (sql.Item1 == "4")
             {

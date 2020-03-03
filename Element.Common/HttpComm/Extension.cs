@@ -6,8 +6,6 @@ namespace Element.Common.HttpComm
 {
    public static  class Extension
     {
-
-
         public static string GetClientUserIp(this HttpContext context)
         {
             var ip = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();

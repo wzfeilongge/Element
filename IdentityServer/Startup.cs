@@ -2,13 +2,20 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using Element.UI.ApiAuth;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Quickstart.UI;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
 
 namespace IdentityServer
 {
@@ -23,18 +30,15 @@ namespace IdentityServer
             Configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public  void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            // configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
             services.Configure<IISOptions>(iis =>
             {
                 iis.AuthenticationDisplayName = "Windows";
                 iis.AutomaticAuthentication = false;
             });
 
-            // configures IIS in-proc settings
             services.Configure<IISServerOptions>(iis =>
             {
                 iis.AuthenticationDisplayName = "Windows";
@@ -50,30 +54,37 @@ namespace IdentityServer
             })
                 .AddTestUsers(TestUsers.Users);
 
-            // in-memory, code config
             builder.AddInMemoryIdentityResources(Config.Ids);
             builder.AddInMemoryApiResources(Config.Apis);
-            builder.AddInMemoryClients(Config.Clients);
-
-            // or in-memory, json config
-            //builder.AddInMemoryIdentityResources(Configuration.GetSection("IdentityResources"));
-            //builder.AddInMemoryApiResources(Configuration.GetSection("ApiResources"));
-            //builder.AddInMemoryClients(Configuration.GetSection("clients"));
-
-            // not recommended for production - you need to store your key material somewhere secure
+            builder.AddInMemoryClients(Config.Clients);           
             builder.AddDeveloperSigningCredential();
+            var audienceConfig = Configuration.GetSection("Audience");
+            var symmetricKeyAsBase64 = audienceConfig["Secret"];
+            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
+            var signingKey = new SymmetricSecurityKey(keyByteArray);
 
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to http://localhost:5000/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
-                });
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,//还是从 appsettings.json 拿到的
+                ValidateIssuer = true,
+                ValidIssuer = audienceConfig["Issuer"],//发行人
+                ValidateAudience = true,
+                ValidAudience = audienceConfig["Audience"],//订阅人
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                RequireExpirationTime = true
+            };
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = nameof(ApiResponseHandler);
+                o.DefaultForbidScheme = nameof(ApiResponseHandler);
+            })
+           .AddJwtBearer(o =>
+           {
+               o.TokenValidationParameters = tokenValidationParameters;
+           });
         }
 
         public void Configure(IApplicationBuilder app)
@@ -84,7 +95,6 @@ namespace IdentityServer
             }
 
             app.UseStaticFiles();
-
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();

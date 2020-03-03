@@ -23,8 +23,6 @@ namespace Element.Domain.CommandHandler
         IRequestHandler<UserCommand, Unit>,
         IRequestHandler<UserChangePwdCommand, Unit>,
         IRequestHandler<UserLoginCommand, Unit>
-
-
     {
 
         private readonly IMediatorHandler _Bus;
@@ -44,6 +42,12 @@ namespace Element.Domain.CommandHandler
             _JwtInterface = JwtInterface;
         }
 
+        /// <summary>
+        /// 注册账号
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<Unit> Handle(UserCommand request, CancellationToken cancellationToken)
         {
             if (!request.IsValid())
@@ -120,7 +124,7 @@ namespace Element.Domain.CommandHandler
             var model = await _UserRepository.GetModelAsync(u => u.Name == request.UserName && u.Password == Encrypt.EncryptPassword(request.Password));
             if (model != null)
             {
-                var role = await _RoleManngeRepository.GetModelAsync(u => u.Id.Equals(model.Id));
+                var role = await _RoleManngeRepository.GetModelAsync(u => u.Id==(model.Id));
                 if (role != null)
                 {
                     TokenModelJwt t = new TokenModelJwt
@@ -137,7 +141,6 @@ namespace Element.Domain.CommandHandler
             }
             await _Bus.RaiseEvent(new DomainNotification("Sucess", "false"));
             await _Bus.RaiseEvent(new DomainNotification("data", "登录失败"));
-
             return await Task.FromResult(new Unit());
         }
     }

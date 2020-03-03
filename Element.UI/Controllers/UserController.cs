@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Element.Applicaion.IElementServices;
 using Element.Applicaion.ViewModels;
-using Element.Common.Common;
 using Element.Common.HttpComm;
-using Element.Core.Events;
 using Element.Core.Notifications;
 using Element.UI.PolicyRequirement;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StackExchange.Redis;
 
 namespace Element.UI.Controllers
 {
@@ -74,7 +69,7 @@ namespace Element.UI.Controllers
         /// </summary>
         /// <param name="ViewModel"></param>
         /// <returns></returns>
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody]UserLoginModel ViewModel)
         {

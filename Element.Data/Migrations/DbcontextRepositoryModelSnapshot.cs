@@ -40,8 +40,7 @@ namespace Element.Data.Migrations
 
             modelBuilder.Entity("Element.Domain.Models.Merchant", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnName("Id");
+                    b.Property<Guid>("Id");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("DateTime");

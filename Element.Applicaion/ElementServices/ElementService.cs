@@ -31,8 +31,6 @@ namespace Element.Applicaion.ElementServices
             _RoleManngeRepository = roleManngeRepository;
         }
 
-   
-
         public IEnumerable<MerchantViewModel> GetAll()
         {
             return _Mapper.Map<IEnumerable<MerchantViewModel>>(_MerchantRepository.GetAll(o=>o.Id!=null));
@@ -45,7 +43,7 @@ namespace Element.Applicaion.ElementServices
 
         public  async Task<RoleMannage> GetRoleModel(Guid id)
         {
-           return await  _RoleManngeRepository.GetModelAsync(r=>r.Id==id);
+           return await  _RoleManngeRepository.GetModelAsync(r=>(r.Id).Equals(id));
         }
 
         public async Task ResiterMerchant(MerchantViewModel merchantViewModel)

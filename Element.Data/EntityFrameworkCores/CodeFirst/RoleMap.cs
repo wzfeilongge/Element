@@ -1,4 +1,5 @@
-﻿using Element.Domain.Models;
+﻿using Element.Common.SeedData;
+using Element.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -11,9 +12,15 @@ namespace Element.Data.EntityFrameworkCores.CodeFirst
     {
         public void Configure(EntityTypeBuilder<RoleMannage> builder)
         {
-            builder.Property(c => c.Id).HasColumnName("Id");
+            builder.Property(c => c.Id).HasColumnName("Id").IsRequired();
             builder.Property(c => c.RoleName).HasColumnType("varchar(10)");
             builder.Property(c => c.CreateTime).HasColumnType("datetime");
+            builder.Property(c => c.IsTrueRold).HasColumnType("bit"); ;
+
+      
+
+
+
         }
     }
 }

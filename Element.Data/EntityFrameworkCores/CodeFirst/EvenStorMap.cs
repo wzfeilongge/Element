@@ -11,7 +11,7 @@ namespace Element.Data.EntityFrameworkCores.CodeFirst
     {
         public void Configure(EntityTypeBuilder<StoredEvent> builder)
         {
-            builder.Property(c => c.Id).HasColumnName("Id");
+            builder.Property(c => c.Id).HasColumnName("Id").IsRequired();
             builder.Property(c => c.MessageType)
                 .HasColumnType("varchar(100)")
                 .IsRequired();
