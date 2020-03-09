@@ -40,6 +40,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Element.UI.ApiAuth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.OpenApi.Models;
+using StackExchange.Profiling.Storage;
+using System.Reflection;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using AutoMapper.Configuration.Conventions;
 
 namespace Element.UI
 {
@@ -64,6 +68,17 @@ namespace Element.UI
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             #region Swagger
+
+            services.AddMiniProfiler(options =>
+            {
+                options.RouteBasePath = "/profiler";//注意这个路径要和下边 index.html 脚本配置中的一致，
+                (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(10);
+            }
+
+            );
+
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -165,7 +180,7 @@ namespace Element.UI
 
         }
 
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public  void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
 
             app.UseStaticFiles();
@@ -187,11 +202,13 @@ namespace Element.UI
                 app.UseExceptionHandler("/Error");
             }
             app.UseSwagger();
-
+            app.UseMiniProfiler();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
-                c.RoutePrefix = "";//路径配置直接访问该文件，
+               c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
+               c.RoutePrefix = "";//路径配置直接访问该文件，
+               c.IndexStream =() => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("ElementManage.index.html");
+
             });
 
             app.UseCors("LimitRequests");
